@@ -1,0 +1,33 @@
+$ sudo apt-get install apache2
+# Check the server after successful installation by 
+$ sudo service apache2 status
+
+Open up the browser and paste the IP or hostname of the system the apache2 "IT WORKS!!" main page appears
+This shows its successful installation.
+
+Adding Apache server services to nagios is as simple 
+- Install the nagios nrpe agent 
+- Add the hosts in localhosts.cfg file in the nagios server 
+- Add the services to monitor (eg : Check_http , SSH , PING and so on)
+
+# Define a service to "ping" the local machine
+
+define service{
+        use                             local-service         ; Name of service template to use
+        host_name                       webserver
+        service_description             HTTP_status
+        check_command                   check_http
+        }
+
+
+# Define a service to check the disk space of the root partition
+# on the local machine.  Warning if < 20% free, critical if
+# < 10% free space on partition.
+
+define service{
+        use                             local-service         ; Name of service template to use
+        host_name                       webserver
+        service_description             Root Partition
+        check_command                   check_local_disk!20%!10%!/
+        }
+
