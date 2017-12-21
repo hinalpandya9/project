@@ -1,8 +1,5 @@
 #!/bin/bash
 
-cd /home/hinal/Downloads
+cd /home/ubuntu/project
 java -jar csv_reader.jar
-
-
-
 
