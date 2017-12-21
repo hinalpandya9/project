@@ -43,6 +43,8 @@ Add the nagios nrpe plugins to monitor this server
 Add mysql as a host to the main nagios server localhosts.cfg file
 Add some services to monitor mysql server
 
+# Define Root partition for mysql
+
 define service{
         use                             local-service         ; Name of service template to use
         host_name                       mysql
