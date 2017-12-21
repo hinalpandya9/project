@@ -1,0 +1,61 @@
+# To install MySQL server type following 
+$ sudo apt-get install mysql-server
+# Set a password when asked to before last step of installation
+
+# Accessing mysql by command
+$ mysql -u root -p
+# Enter your password
+# create a database
+create database testdb;
+create user 'testuser'@'localhost' identified by 'password';
+grant all on testdb.* to 'testuser';
+# create tables
+use testdb;
+create table customers (customer_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, first_name TEXT, last_name TEXT);
+Exit
+
+# Write a script for backup
+$ sudo nano sript_name.sh
+#!/bin/bash
+
+# Database credentials
+user="hinal@localhost"
+password="password"
+#host="hinal@localhost"
+db_name="backup"
+
+# Other options
+backup_path="/home/dbbackup"
+date=$(date +"%d-%b-%Y")
+
+# Set default file permissions
+umask 177
+
+# Dump database into SQL file
+mysqldump --user=$user --password=$password --host=$host $db_name > $backup_path/$db_name-$date.sql
+
+# Delete files older than 7 days
+find $backup_path/* -mtime +7 -exec rm {} \;
+
+-----------------------------------------------------------------------
+
+Add the nagios nrpe plugins to monitor this server
+Add mysql as a host to the main nagios server localhosts.cfg file
+Add some services to monitor mysql server
+
+define service{
+        use                             local-service         ; Name of service template to use
+        host_name                       mysql
+        service_description             Root Partition
+        check_command                   check_local_disk!20%!10%!/
+        }
+
+# Define a service to "ping" the local machine
+
+define service{
+        use                             local-service         ; Name of service template to use
+        host_name                       mysql
+        service_description             PING
+        check_command                   check_ping!100.0,20%!500.0,60%
+        }
+
