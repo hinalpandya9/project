@@ -37,7 +37,7 @@ mysqldump --user=$user --password=$password --host=$host $db_name > $backup_path
 # Delete files older than 7 days
 find $backup_path/* -mtime +7 -exec rm {} \;
 
------------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 Add the nagios nrpe plugins to monitor this server
 Add mysql as a host to the main nagios server localhosts.cfg file
